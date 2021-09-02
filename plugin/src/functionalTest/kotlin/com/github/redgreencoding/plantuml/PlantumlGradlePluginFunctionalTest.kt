@@ -14,13 +14,10 @@ import kotlin.test.Test
  */
 class PlantumlGradlePluginFunctionalTest {
     @Test fun `can run task with groovy dsl`() {
-        // Setup the test build
-        val projectDir = File("build/functionalTest/groovy")
-        projectDir.mkdirs()
-        projectDir.resolve("settings.gradle").writeText("")
-        projectDir.resolve("build.gradle").writeText("""
+        canGeneratePlantuml("build/functionalTest/groovy", "") {
+            """
             plugins {
-                id('redgreencoding.plantuml')
+                id('com.github.redgreencoding.plantuml')
             }
             
             plantuml {
@@ -30,45 +27,21 @@ class PlantumlGradlePluginFunctionalTest {
 
                     diagrams {
                         Hello
+                        
+                        Hello2 {
+                            sourceFile = project.file("Hello.puml")
+                        }
                     }
             }
-        """)
-
-        projectDir.resolve("Hello.puml").writeText("""
-            @startuml
-
-            Bob->Alice : Hello World!
-
-            @enduml
-        """.trimIndent())
-
-        // Run the build
-        val runner = GradleRunner.create()
-        runner.forwardOutput()
-        runner.withPluginClasspath()
-        runner.withArguments("--rerun-tasks", "plantumlAll")
-        runner.withProjectDir(projectDir)
-        val result = runner.build();
-
-        expectThat(result.task(":plantumlAll")).isNotNull().get { outcome }.isEqualTo(TaskOutcome.SUCCESS)
-        expectThat(result.task(":plantumlHello")).isNotNull().get { outcome }.isEqualTo(TaskOutcome.SUCCESS)
-        expectThat(File(projectDir, "svg")).exists()
-        val svg = File(projectDir, "svg/Hello.svg")
-        expectThat(svg).exists()
-
-        val content = svg.readText()
-
-        println(content)
+        """
+        }
     }
 
     @Test fun `can run task with kotlin dsl`() {
-        // Setup the test build
-        val projectDir = File("build/functionalTest/kotlin")
-        projectDir.mkdirs()
-        projectDir.resolve("settings.gradle.kts").writeText("")
-        projectDir.resolve("build.gradle.kts").writeText("""
+        canGeneratePlantuml("build/functionalTest/kotlin", ".kts") {
+            """
             plugins {
-                id("redgreencoding.plantuml")
+                id("com.github.redgreencoding.plantuml")
             }
             
             plantuml {
@@ -78,9 +51,22 @@ class PlantumlGradlePluginFunctionalTest {
 
                     diagrams {
                         create("Hello")
+                        
+                        create("Hello2") {
+                            sourceFile = project.file("Hello.puml")
+                        }
                     }
             }
-        """)
+        """
+        }
+    }
+
+    private fun canGeneratePlantuml(directoryName: String, extension: String, buildFile: () -> String) {
+        // Setup the test build
+        val projectDir = File(directoryName)
+        projectDir.mkdirs()
+        projectDir.resolve("settings.gradle$extension").writeText("")
+        projectDir.resolve("build.gradle$extension").writeText(buildFile())
 
         projectDir.resolve("Hello.puml").writeText("""
             @startuml
@@ -98,14 +84,18 @@ class PlantumlGradlePluginFunctionalTest {
         runner.withProjectDir(projectDir)
         val result = runner.build();
 
-        expectThat(result.task(":plantumlAll")).isNotNull().get { outcome }.isEqualTo(TaskOutcome.SUCCESS)
-        expectThat(result.task(":plantumlHello")).isNotNull().get { outcome }.isEqualTo(TaskOutcome.SUCCESS)
-        expectThat(File(projectDir, "svg")).exists()
-        val svg = File(projectDir, "svg/Hello.svg")
-        expectThat(svg).exists()
+        listOf(":plantumlAll", ":plantumlHello", ":plantumlHello2").forEach {
+            expectThat(result.task(it)).isNotNull().get { outcome }.isEqualTo(TaskOutcome.SUCCESS)
 
-        val content = svg.readText()
+        }
 
-        println(content)
+        listOf("Hello.svg", "Hello2.svg").forEach {
+            val svg = File(projectDir, "svg/$it")
+            expectThat(svg).exists()
+
+            val content = svg.readText()
+
+            println(content)
+        }
     }
 }

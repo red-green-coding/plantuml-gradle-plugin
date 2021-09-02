@@ -12,7 +12,13 @@ plugins {
 
     // Apply the Kotlin JVM plugin to add support for Kotlin.
     id("org.jetbrains.kotlin.jvm") version "1.5.0"
+
+    id("maven-publish")
+    id("com.gradle.plugin-publish") version "0.14.0"
 }
+
+group = "com.github.redgreencoding"
+version = "0.0.1"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -42,10 +48,18 @@ dependencies {
 
 gradlePlugin {
     // Define the plugin
-    val greeting by plugins.creating {
-        id = "redgreencoding.plantuml"
+    val plantuml by plugins.creating {
+        id = "com.github.redgreencoding.plantuml"
+        displayName = "Gradle PlantUML Plugin"
+        description = "A plugin to convert PlantUML .puml files to one of the supported output formats"
         implementationClass = "com.github.redgreencoding.plantuml.PlantumlGradlePlugin"
     }
+}
+
+pluginBundle {
+    website = "https://github.com/red-green-coding/plantuml-gradle-plugin"
+    vcsUrl = "https://github.com/red-green-coding/plantuml-gradle-plugin.git"
+    tags = listOf("plantuml", "puml", "svg")
 }
 
 // Add a source set for the functional test suite
