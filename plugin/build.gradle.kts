@@ -26,18 +26,25 @@ dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+    implementation("net.sourceforge.plantuml:plantuml:1.2021.10")
+
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
+
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+
+    testImplementation("io.strikt:strikt-core:0.31.0")
+    testImplementation("io.strikt:strikt-jvm:0.31.0")
 }
 
 gradlePlugin {
     // Define the plugin
     val greeting by plugins.creating {
-        id = "com.github.redgreencoding.plantuml.greeting"
-        implementationClass = "com.github.redgreencoding.plantuml.PlantumlGradlePluginPlugin"
+        id = "redgreencoding.plantuml"
+        implementationClass = "com.github.redgreencoding.plantuml.PlantumlGradlePlugin"
     }
 }
 
