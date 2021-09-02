@@ -128,6 +128,12 @@ open class GenerateDiagramTask @Inject constructor(
     val options: Options
 ) : DefaultTask() {
 
+    init {
+        outputs.upToDateWhen {
+            getOutputFile().exists() && getOutputFile().lastModified() > diagram.sourceFile.lastModified()
+        }
+    }
+
     @OutputFile
     fun getOutputFile() =
         File(options.outputDir, "${diagram.name}${options.fileFormat().fileSuffix}")
