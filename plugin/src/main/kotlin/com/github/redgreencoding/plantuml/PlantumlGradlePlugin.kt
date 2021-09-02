@@ -29,9 +29,7 @@ class PlantumlGradlePlugin: Plugin<Project> {
             it.description = "Generate all plantuml diagrams"
         }
 
-        plantuml.diagrams.all {
-            val diagram = it
-
+        plantuml.diagrams.all { diagram ->
             val task = project.tasks.register(
                 "plantuml${diagram.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}",
                 GenerateDiagramTask::class.java,
