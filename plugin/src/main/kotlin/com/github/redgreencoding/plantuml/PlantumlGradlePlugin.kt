@@ -11,11 +11,14 @@ import net.sourceforge.plantuml.SourceStringReader
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import java.util.*
 import javax.inject.Inject
@@ -49,9 +52,6 @@ class PlantumlGradlePlugin: Plugin<Project> {
     }
 }
 
-/**
- * Defines options for the plugin.
- */
 class Options(project: Project) {
 
     /** Where to generate the output image. */
@@ -79,6 +79,7 @@ class Diagram(
 ) {
     /** Source file. */
     @InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     var sourceFile: File = project.file("$name.puml")
 }
 
@@ -120,6 +121,7 @@ open class PlantUMLExtension(project: Project) {
 /**
  * The task generating an image from a plantuml source file.
  */
+@CacheableTask
 open class GenerateDiagramTask @Inject constructor(
     @Nested
     val diagram: Diagram,
