@@ -32,16 +32,8 @@ dependencies {
 
     implementation("net.sourceforge.plantuml:plantuml:1.2021.10")
 
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
-
-    // Use the Kotlin test library.
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-
-    // Use the Kotlin JUnit integration.
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
-
-    testImplementation("io.strikt:strikt-core:0.31.0")
-    testImplementation("io.strikt:strikt-jvm:0.31.0")
+    testImplementation("io.kotest:kotest-runner-junit5:4.6.2")
+    testImplementation("io.kotest:kotest-assertions-core:4.6.2")
 }
 
 gradlePlugin {
@@ -90,6 +82,7 @@ tasks.check {
 
 tasks.withType(Test::class.java) {
     testLogging.showStandardStreams = true
+    useJUnitPlatform()
 }
 
 tasks {
@@ -105,3 +98,4 @@ tasks {
         }
     }
 }
+

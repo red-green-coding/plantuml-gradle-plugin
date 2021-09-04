@@ -1,19 +1,19 @@
 package com.github.redgreencoding.plantuml
 
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.nulls.shouldNotBeNull
 import org.gradle.testfixtures.ProjectBuilder
-import kotlin.test.Test
-import kotlin.test.assertNotNull
 
 /**
  * A simple unit test for the 'redgreencoding.plantuml' plugin.
  */
-class PlantumlGradlePluginTest {
-    @Test fun `plugin registers task`() {
+class PlantumlGradlePluginSpec : StringSpec({
+    "plugin registers task" {
         // Create a test project and apply the plugin
         val project = ProjectBuilder.builder().build()
         project.plugins.apply("com.github.redgreencoding.plantuml")
 
         // Verify the result
-        assertNotNull(project.tasks.findByName("plantumlAll"))
+        project.tasks.findByName("plantumlAll").shouldNotBeNull()
     }
-}
+})
