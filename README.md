@@ -1,6 +1,9 @@
 # plantuml-gradle-plugin
 
-A plugin to convert [PlantUML](https://plantuml.com) _.puml_ files into one of the supported output formats.
+This plugin allows you to convert [PlantUML](https://plantuml.com) (_.puml_) files into one of the supported output formats:
+* _.svg_
+* _.png_
+* ... (check [here](https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/FileFormat.java#L64) for all supported formats of the underlying  [PlantUML library](https://github.com/plantuml/plantuml) library)
 
 ## Adding the plugin
 
@@ -46,7 +49,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.github.readgreencoding:plantuml-gradle-plugin:x.y.z"
+    classpath "com.github.redgreencoding:plantuml-gradle-plugin:x.y.z"
   }
 }
 
@@ -57,7 +60,6 @@ apply plugin: "com.github.redgreencoding.plantuml"
 
 After [adding the plugin](#adding-the-plugin) to your build you can configure the plugin using the extension block `plantuml` 
 
-This plugin uses the [PlantUML library](https://github.com/plantuml/plantuml) for the conversion.
 Check the supported output formats [here](https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/FileFormat.java#L64).
 
 ### Kotlin
