@@ -37,12 +37,13 @@ dependencies {
 }
 
 gradlePlugin {
-    // Define the plugin
-    val plantuml by plugins.creating {
-        id = "com.github.redgreencoding.plantuml"
-        displayName = "Gradle PlantUML Plugin"
-        description = "A plugin to convert PlantUML .puml files to one of the supported output formats"
-        implementationClass = "com.github.redgreencoding.plantuml.PlantumlGradlePlugin"
+    plugins {
+        create("plantuml") {
+            id = "com.github.redgreencoding.plantuml"
+            displayName = "Gradle PlantUML Plugin"
+            description = "A plugin to convert PlantUML .puml files to one of the supported output formats"
+            implementationClass = "com.github.redgreencoding.plantuml.PlantumlGradlePlugin"
+        }
     }
 }
 
@@ -50,16 +51,6 @@ pluginBundle {
     website = "https://github.com/red-green-coding/plantuml-gradle-plugin"
     vcsUrl = "https://github.com/red-green-coding/plantuml-gradle-plugin.git"
     tags = listOf("plantuml", "puml", "svg")
-    mavenCoordinates {
-        group = project.group.toString()
-        artifactId = base.archivesBaseName
-    }
-    plugins {
-        named("plantuml") {
-            displayName = "Gradle PlantUML Plugin"
-            description = "Gradle PlantUML Plugin"
-        }
-    }
 }
 
 // Add a source set for the functional test suite
