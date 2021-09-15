@@ -12,7 +12,7 @@ This plugin allows you to convert [PlantUML](https://plantuml.com) (_.puml_) fil
 Using the [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
 ```kotlin
 plugins {
-    id("com.github.redgreencoding.plantuml") version "x.y.z"
+    id("io.github.redgreencoding.plantuml") version "x.y.z"
 }
 ```
 
@@ -25,18 +25,18 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.github.redgreencoding:plantuml-gradle-plugin:x.y.z")
+    classpath("io.github.redgreencoding:plantuml-gradle-plugin:x.y.z")
   }
 }
 
-apply(plugin = "com.github.redgreencoding.plantuml")
+apply(plugin = "io.github.redgreencoding.plantuml")
 ````
 ### Groovy
 
 Using the [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
 ```groovy
 plugins {
-    id "com.github.redgreencoding.plantuml" version "x.y.z"
+    id "io.github.redgreencoding.plantuml" version "x.y.z"
 }
 ```
 
@@ -49,11 +49,11 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.github.redgreencoding:plantuml-gradle-plugin:x.y.z"
+    classpath "io.github.redgreencoding:plantuml-gradle-plugin:x.y.z"
   }
 }
 
-apply plugin: "com.github.redgreencoding.plantuml"
+apply plugin: "io.github.redgreencoding.plantuml"
 ````
 
 ## Plugin usage

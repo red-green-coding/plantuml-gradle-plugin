@@ -1,4 +1,4 @@
-package com.github.redgreencoding.plantuml
+package io.github.redgreencoding.plantuml
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -11,7 +11,7 @@ class PlantumlGradlePluginSpec : StringSpec({
     "plugin registers task" {
         // Create a test project and apply the plugin
         val project = ProjectBuilder.builder().build()
-        project.plugins.apply("com.github.redgreencoding.plantuml")
+        project.plugins.apply("io.github.redgreencoding.plantuml")
 
         // Verify the result
         project.tasks.findByName("plantumlAll").shouldNotBeNull()

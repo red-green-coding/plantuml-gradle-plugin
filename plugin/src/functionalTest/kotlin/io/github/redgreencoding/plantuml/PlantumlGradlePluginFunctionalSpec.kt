@@ -1,4 +1,4 @@
-package com.github.redgreencoding.plantuml
+package io.github.redgreencoding.plantuml
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.spec.style.stringSpec
@@ -15,13 +15,13 @@ import javax.xml.validation.SchemaFactory
 import javax.xml.validation.Validator
 
 /**
- * A simple functional test for the 'com.github.redgreencoding.plantuml.greeting' plugin.
+ * A simple functional test for the 'io.github.redgreencoding.plantuml.greeting' plugin.
  */
 class PlantumlGradlePluginFunctionalSpec : StringSpec({
     val gradleDSL =
         """
             plugins {
-                id('com.github.redgreencoding.plantuml')
+                id('io.github.redgreencoding.plantuml')
             }
             
             plantuml {
@@ -44,7 +44,7 @@ class PlantumlGradlePluginFunctionalSpec : StringSpec({
     val kotlinDSL =
         """
             plugins {
-                id("com.github.redgreencoding.plantuml")
+                id("io.github.redgreencoding.plantuml")
             }
             
             plantuml {

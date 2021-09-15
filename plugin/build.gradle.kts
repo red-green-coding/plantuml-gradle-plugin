@@ -9,7 +9,7 @@ plugins {
     id("com.gradle.plugin-publish") version "0.14.0"
 }
 
-group = "com.github.redgreencoding"
+group = "io.github.redgreencoding"
 version = "0.0.2"
 
 java {
@@ -39,10 +39,10 @@ dependencies {
 gradlePlugin {
     plugins {
         create("plantuml") {
-            id = "com.github.redgreencoding.plantuml"
+            id = "io.github.redgreencoding.plantuml"
             displayName = "Gradle PlantUML Plugin"
             description = "A plugin to convert PlantUML .puml files to one of the supported output formats"
-            implementationClass = "com.github.redgreencoding.plantuml.PlantumlGradlePlugin"
+            implementationClass = "io.github.redgreencoding.plantuml.PlantumlGradlePlugin"
         }
     }
 }

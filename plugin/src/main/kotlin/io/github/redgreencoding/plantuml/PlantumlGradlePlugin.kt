@@ -1,4 +1,4 @@
-package com.github.redgreencoding.plantuml
+package io.github.redgreencoding.plantuml
 
 import groovy.lang.Closure
 import org.gradle.api.Plugin
