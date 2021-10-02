@@ -55,7 +55,7 @@ pluginBundle {
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("pluginMaven") {
             artifactId = "plantuml-gradle-plugin"
         }
     }
