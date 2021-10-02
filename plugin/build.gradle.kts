@@ -53,6 +53,21 @@ pluginBundle {
     tags = listOf("plantuml", "puml", "svg")
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            artifactId = "plantuml-gradle-plugin"
+        }
+    }
+
+    repositories {
+        maven {
+            name = "localPluginRepository"
+            url = uri("../build/local-plugin-repository")
+        }
+    }
+}
+
 // Add a source set for the functional test suite
 val functionalTestSourceSet = sourceSets.create("functionalTest") {
 }
