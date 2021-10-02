@@ -3,10 +3,10 @@ plugins {
     `java-gradle-plugin`
 
     // Apply the Kotlin JVM plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.5.0"
+    id("org.jetbrains.kotlin.jvm") version "1.5.31"
 
     id("maven-publish")
-    id("com.gradle.plugin-publish") version "0.14.0"
+    id("com.gradle.plugin-publish") version "0.16.0"
 }
 
 group = "io.github.redgreencoding"
@@ -82,7 +82,7 @@ val functionalTest by tasks.registering(Test::class) {
 }
 
 tasks.check {
-    // Run the functional tests as part of `check`
+// Run the functional tests as part of `check`
     dependsOn(functionalTest)
 }
 
