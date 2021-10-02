@@ -81,7 +81,7 @@ private fun configurePlantumlBuild(name: String, extension: String, buildFile: S
             Bob->Alice : Hello World!
 
             @enduml
-        """.trimIndent()
+                """.trimIndent()
             )
 
             // Run the build
@@ -92,7 +92,7 @@ private fun configurePlantumlBuild(name: String, extension: String, buildFile: S
                 withProjectDir(projectDir)
             }
 
-            val result = runner.build();
+            val result = runner.build()
 
             listOf(":plantumlAll", ":plantumlHello", ":plantumlHello2").forEach {
                 val task = result.task(it)
@@ -116,7 +116,7 @@ private fun validateSVG(file: File) {
         println("Validation of ${file.name} against SVG XSD schema.")
         val start = System.currentTimeMillis()
 
-        SvgValidator.validator.validate(source)
+        SvgValidator(source)
         println("SVG is valid.")
 
         println("Took (ms): " + (System.currentTimeMillis() - start))
@@ -124,8 +124,10 @@ private fun validateSVG(file: File) {
 }
 
 private object SvgValidator {
-    val factory: SchemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema")
-    val svgSchema: URL = javaClass.getResource("/SVG.xsd") ?: throw AssertionError("SVG.xsd is missing!")
-    val schema: Schema = factory.newSchema(svgSchema)
-    val validator: Validator = schema.newValidator()
+    private val factory: SchemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema")
+    private val svgSchema: URL = javaClass.getResource("/SVG.xsd") ?: throw AssertionError("SVG.xsd is missing!")
+    private val schema: Schema = factory.newSchema(svgSchema)
+    private val validator: Validator = schema.newValidator()
+
+    operator fun invoke(source: StreamSource) = validator.validate(source)
 }
