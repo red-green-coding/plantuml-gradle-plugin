@@ -73,6 +73,7 @@ private fun configurePlantumlBuild(name: String, extension: String, buildFile: S
             projectDir.mkdirs()
             projectDir.resolve("settings.gradle$extension").writeText("")
             projectDir.resolve("build.gradle$extension").writeText(buildFile)
+            projectDir.resolve("gradle.properties").writeText("org.gradle.unsafe.configuration-cache=true")
 
             projectDir.resolve("Hello.puml").writeText(
                 """
