@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.5.31"
 
     id("maven-publish")
-    id("com.gradle.plugin-publish") version "0.16.0"
+    id("com.gradle.plugin-publish") version "0.17.0"
 }
 
 group = "io.github.redgreencoding"
