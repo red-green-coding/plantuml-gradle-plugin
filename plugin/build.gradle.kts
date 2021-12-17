@@ -6,11 +6,11 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.5.31"
 
     id("maven-publish")
-    id("com.gradle.plugin-publish") version "0.17.0"
+    id("com.gradle.plugin-publish") version "0.18.0"
 }
 
 group = "io.github.redgreencoding"
-version = "0.1.0"
+version = "0.1.1"
 
 java {
     toolchain {
@@ -30,10 +30,11 @@ dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("net.sourceforge.plantuml:plantuml:1.2021.10")
+    implementation("net.sourceforge.plantuml:plantuml:1.2021.16")
 
-    testImplementation("io.kotest:kotest-runner-junit5:4.6.3")
-    testImplementation("io.kotest:kotest-assertions-core:4.6.3")
+    val kotestVersion = "4.6.3"
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 }
 
 gradlePlugin {
@@ -89,6 +90,21 @@ tasks.check {
 tasks.withType(Test::class.java) {
     testLogging.showStandardStreams = true
     useJUnitPlatform()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        allWarningsAsErrors = true
+
+        jvmTarget = "1.8"
+        apiVersion = "1.5"
+        languageVersion = "1.5"
+
+        incremental = true
+        freeCompilerArgs = listOf(
+            "-Xjsr305=strict"
+        )
+    }
 }
 
 tasks {
