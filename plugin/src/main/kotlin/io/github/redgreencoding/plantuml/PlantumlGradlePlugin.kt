@@ -11,9 +11,13 @@ import net.sourceforge.plantuml.SourceStringReader
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.file.FileTree
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.OutputFile
@@ -23,7 +27,7 @@ import org.gradle.api.tasks.TaskAction
 import java.util.*
 import javax.inject.Inject
 
-class PlantumlGradlePlugin: Plugin<Project> {
+class PlantumlGradlePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val plantuml = project.extensions.create("plantuml", PlantUMLExtension::class.java)
 
@@ -55,7 +59,7 @@ class PlantumlGradlePlugin: Plugin<Project> {
 class Options(project: Project) {
 
     /** Where to generate the output image. */
-    @OutputDirectory
+    @Internal
     var outputDir: File = project.file("${project.buildDir}/plantuml")
 
     /** Output format. */
@@ -130,12 +134,6 @@ open class GenerateDiagramTask @Inject constructor(
     val options: Options
 ) : DefaultTask() {
 
-    init {
-        outputs.upToDateWhen {
-            getOutputFile().exists() && getOutputFile().lastModified() > diagram.sourceFile.lastModified()
-        }
-    }
-
     @OutputFile
     fun getOutputFile() =
         File(options.outputDir, "${diagram.name}${options.fileFormat().fileSuffix}")
@@ -150,6 +148,54 @@ open class GenerateDiagramTask @Inject constructor(
 
         getOutputFile().outputStream().buffered().use {
             reader.outputImage(it, FileFormatOption(options.fileFormat()))
+        }
+    }
+}
+
+/**
+ * The task generating an image from a plantuml source file.
+ */
+@CacheableTask
+abstract class GenerateDiagramsTask : DefaultTask() {
+
+    init {
+        group = "plantuml"
+        description = "Generate plantuml diagrams"
+    }
+
+    private val options: Options =
+        project.extensions.getByType(PlantUMLExtension::class.java).options
+
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val source: Property<FileTree>
+
+    @get:OutputDirectory
+    internal val outputDirectory =
+        options.outputDir
+
+    @TaskAction
+    fun generate() {
+        if (!outputDirectory.exists() && !outputDirectory.mkdirs())
+            throw GradleException("Unable to create $outputDirectory directory")
+
+        source.get().visit { fileDetails ->
+
+            val file = fileDetails.file
+
+            if (!file.isFile) return@visit
+
+            val fileName = fileDetails.name
+            val simpleName = fileName.substring(0, fileName.lastIndexOf("."))
+            val outputFile = File(outputDirectory, "${simpleName}${options.fileFormat().fileSuffix}")
+
+            fileDetails.open().bufferedReader().use { reader ->
+                val stringReader = SourceStringReader(reader.readText())
+
+                outputFile.outputStream().buffered().use {
+                    stringReader.outputImage(it, FileFormatOption(options.fileFormat()))
+                }
+            }
         }
     }
 }
