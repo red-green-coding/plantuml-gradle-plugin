@@ -5,7 +5,6 @@ plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin.
     id("org.jetbrains.kotlin.jvm") version "1.9.23"
 
-    id("maven-publish")
     id("com.gradle.plugin-publish") version "1.2.1"
 }
 
