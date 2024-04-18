@@ -39,4 +39,4 @@ jobs:
           echo gradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }} >> ~/.gradle/gradle.properties
 
       # Publish
-      - run: ./gradlew publishPlugins --validate-only -Pgradle.publish.key=<key>
+      - run: ./gradlew publishPlugins --validate-only
