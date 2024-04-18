@@ -3,7 +3,6 @@
 name: Publish to Gradle Plugin Portal
 
 on:
-  push:
   release:
     # This specifies that the build will be triggered when we publish a release
     types: [published]
@@ -30,7 +29,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      # Publish
       - run: ./gradlew build
 
       - name: Validate version
