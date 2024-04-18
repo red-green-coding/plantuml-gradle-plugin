@@ -1,6 +1,6 @@
 # https://michaelzanggl.com/articles/github-actions-cd-setup/
 
-name: Publish plugin
+name: Publish to Gradle Plugin Portal
 
 on:
   push:
