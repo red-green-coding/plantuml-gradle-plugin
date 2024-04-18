@@ -33,15 +33,15 @@ jobs:
       # Publish
       - run: ./gradlew build
 
-      - id: semver
+      - id: Validate version
         uses: matt-usurp/validate-semver@v2
         with:
           version: ${{ github.event.release.tag_name }}
 
-      - name: Prepare credentials
+      - name: Prepare Gradle Plugin Portal credentials
         run: |
           echo gradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} >> ~/.gradle/gradle.properties
           echo gradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }} >> ~/.gradle/gradle.properties
 
       # Publish
-      - run: ./gradlew publishPlugins --validate-only -Pversion=${{ github.event.release.tag_name }}
+      - run: ./gradlew publishPlugins --validate-only -PprojectVersion=${{ github.event.release.tag_name }}

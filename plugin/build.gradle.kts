@@ -9,6 +9,7 @@ plugins {
 }
 
 group = "io.github.redgreencoding"
+version = project.findProperty("projectVersion") ?: "0.0.3-SNAPSHOT"
 
 java {
     toolchain {
