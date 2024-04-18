@@ -31,5 +31,5 @@ jobs:
         if: success() || failure()    # run this step even if previous step failed
         with:
           name: Test reports
-          path: build/test-results/**/TEST-*.xml
+          path: "**/build/test-results/**/TEST-*.xml"
           reporter: java-junit
