@@ -1,0 +1,42 @@
+# https://michaelzanggl.com/articles/github-actions-cd-setup/
+
+name: Publish plugin
+
+on:
+  push:
+  release:
+    # This specifies that the build will be triggered when we publish a release
+    types: [published]
+
+jobs:
+  build:
+
+    # Run on latest version of ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # "ref" specifies the branch to check out.
+          # "github.event.release.target_commitish" is a global variable and specifies the branch the release targeted
+          ref: ${{ github.event.release.target_commitish }}
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      # upgrade npm version in package.json to the tag used in the release.
+      # - run: npm version ${{ github.event.release.tag_name }}
+
+      - name: Prepare credentials
+        run: |
+          echo gradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} >> ~/.gradle/gradle.properties
+          echo gradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }} >> ~/.gradle/gradle.properties
+
+      # Publish
+      - run: ./gradlew publishPlugins --validate-only -Pgradle.publish.key=<key>
