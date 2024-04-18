@@ -3,10 +3,10 @@ plugins {
     `java-gradle-plugin`
 
     // Apply the Kotlin JVM plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.5.31"
+    id("org.jetbrains.kotlin.jvm") version "1.9.23"
 
     id("maven-publish")
-    id("com.gradle.plugin-publish") version "0.20.0"
+    id("com.gradle.plugin-publish") version "1.2.1"
 }
 
 group = "io.github.redgreencoding"
@@ -14,8 +14,12 @@ version = "0.2.0"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 repositories {
@@ -28,26 +32,24 @@ dependencies {
 
     implementation("net.sourceforge.plantuml:plantuml:1.2021.16")
 
-    val kotestVersion = "4.6.3"
+    val kotestVersion = "5.8.1"
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 }
 
 gradlePlugin {
+    website.set("https://github.com/red-green-coding/plantuml-gradle-plugin")
+    vcsUrl.set("https://github.com/red-green-coding/plantuml-gradle-plugin.git")
+
     plugins {
         create("plantuml") {
             id = "io.github.redgreencoding.plantuml"
             displayName = "Gradle PlantUML Plugin"
             description = "A plugin to convert PlantUML .puml files to one of the supported output formats"
             implementationClass = "io.github.redgreencoding.plantuml.PlantumlGradlePlugin"
+            tags.set(listOf("plantuml", "puml", "svg"))
         }
     }
-}
-
-pluginBundle {
-    website = "https://github.com/red-green-coding/plantuml-gradle-plugin"
-    vcsUrl = "https://github.com/red-green-coding/plantuml-gradle-plugin.git"
-    tags = listOf("plantuml", "puml", "svg")
 }
 
 publishing {
@@ -91,10 +93,6 @@ tasks.withType(Test::class.java) {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         allWarningsAsErrors = true
-
-        jvmTarget = "1.8"
-        apiVersion = "1.5"
-        languageVersion = "1.5"
 
         incremental = true
         freeCompilerArgs = listOf(

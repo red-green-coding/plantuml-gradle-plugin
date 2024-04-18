@@ -60,7 +60,7 @@ class Options(project: Project) {
 
     /** Where to generate the output image. */
     @Internal
-    var outputDir: File = project.file("${project.buildDir}/plantuml")
+    var outputDir: File = project.file("${project.layout.buildDirectory}/plantuml")
 
     /** Output format. */
     @Input
