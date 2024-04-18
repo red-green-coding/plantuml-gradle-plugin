@@ -9,7 +9,6 @@ plugins {
 }
 
 group = "io.github.redgreencoding"
-version = "0.3.0"
 
 java {
     toolchain {
