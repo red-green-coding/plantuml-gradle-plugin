@@ -35,3 +35,21 @@ jobs:
           name: Test reports
           path: "**/build/test-results/**/TEST-*.xml"
           reporter: java-junit
+
+  # requires 'Allow GitHub Actions to create and approve pull requests' to be enabled in Code and automation/Actions/General
+  auto-merge-dependabot:
+    name: 🤖 Auto merge dependabot PR
+    timeout-minutes: 10
+    needs: [ gradle-build ]
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: 🤖 Merge PR from dependabot
+        uses: fastify/github-action-merge-dependabot@v3.10.1
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          target: minor
+          merge-method: squash
