@@ -1,7 +1,13 @@
 name: Java CI
 
 on:
+  pull_request:
   push:
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
 
 jobs:
   build:
