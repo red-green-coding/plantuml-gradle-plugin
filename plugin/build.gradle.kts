@@ -90,13 +90,10 @@ tasks.withType(Test::class.java) {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        allWarningsAsErrors = true
-
+    compilerOptions {
+        allWarningsAsErrors.set(true)
         incremental = true
-        freeCompilerArgs = listOf(
-            "-Xjsr305=strict"
-        )
+        freeCompilerArgs.add("-Xjsr305=strict")
     }
 }
 
