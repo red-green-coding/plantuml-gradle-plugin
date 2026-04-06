@@ -31,7 +31,7 @@ dependencies {
 
     implementation("net.sourceforge.plantuml:plantuml:1.2024.8")
 
-    val kotestVersion = "6.1.9"
+    val kotestVersion = "6.1.11"
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 }
