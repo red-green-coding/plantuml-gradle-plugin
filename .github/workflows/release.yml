@@ -32,7 +32,7 @@ jobs:
       - run: ./gradlew build
 
       - name: Validate version
-        uses: matt-usurp/validate-semver@v2
+        uses: matt-usurp/validate-semver@v3
         with:
           version: ${{ github.event.release.tag_name }}
 
