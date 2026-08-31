@@ -29,7 +29,7 @@ repositories {
 dependencies {
     implementation(gradleApi())
 
-    implementation("net.sourceforge.plantuml:plantuml:1.2024.8")
+    implementation("net.sourceforge.plantuml:plantuml:1.2026.7")
 
     val kotestVersion = "6.2.4"
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
